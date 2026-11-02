@@ -1,5 +1,66 @@
+const postsContainer = document.querySelector('.posts-container');
+  const  postData = {
+    title: "Learning JavaScript APIs",
+    body: "I am practising my first POST request.",
+    userId: 1
+};
+ 
+
+ async function sendPost(){
+    try{  
+  const response = await fetch("https://dummyjson.com/posts/add" 
+     , {
+    method: "POST",
+    headers: {
+     "Content-Type": "application/json"   
+    },
+    body:JSON.stringify(postData)
+ })
+ if (!response.ok) {
+    throw new Error("Something went wrong");
+}
+ const data = await response.json();
+ console.log(data);
+ return data;
+
+ } catch (error) {
+        console.log(error.message);
+    }
+} 
+
+async function getPosts() {
+  const response = await fetch("https://dummyjson.com/posts" )
+  const data = await response.json();
+  console.log(data)
+  return data.posts;
   
-  const postsContainer = document.querySelector('.posts-container');
+
+}
+
+
+async function loadData( ){
+  const newPost = await sendPost();
+  const existingPosts = await getPosts();
+  const allPosts = [...existingPosts, newPost];
+    console.log(allPosts);
+    const postsHtml = allPosts.map(item => {
+    return `
+        <article>
+            <h3>${item.title}</h3>
+            <p>${item.body}</p>
+        </article>
+    `;
+});
+
+postsContainer.innerHTML = postsHtml.join("");
+
+}
+loadData();
+
+
+
+
+ /* const postsContainer = document.querySelector('.posts-container');
 
   fetch("https://dummyjson.com/postss")
     .then( response => {
@@ -28,5 +89,4 @@ console.log(postsHtml)
 }) .catch(error => {
     console.log(error)
 });
-
-
+*/
