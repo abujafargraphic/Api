@@ -1,5 +1,51 @@
 const postsContainer = document.querySelector('.posts-container');
-  const  postData = {
+ const updateData = {
+    title: "I am improving my JavaScript skills"
+};
+const updatePosts = {
+    title: "Learning JavaScript APIs",
+    body: "I am now practising PUT requests.",
+    userId: 1
+};
+async function updatePost(){
+  const answer = await  fetch("https://dummyjson.com/posts/1", {
+    method: "PUT",
+    headers:{
+        "content-Type": "application/json"
+    },
+    body:JSON.stringify(updatePost)
+
+  }) 
+  if(!answer.ok){
+    throw new Error ("something went wrong")
+  }
+    const finalAnswer = await answer.json();
+    console.log(finalAnswer)
+
+    
+}
+updatePost()
+async function updatesData(){
+  const respond = await  fetch("https://dummyjson.com/posts/1", {
+        method: "PATCH",
+  
+  headers:{
+     "content-Type": "application/json",
+ },
+ 
+     body: JSON.stringify(updateData)
+  }
+)
+ if (!respond.ok) {
+    throw new Error("Something went wrong");
+}
+  const result = await respond.json();
+  console.log(result)
+ 
+}
+updatesData()
+
+const  postData = {
     title: "Learning JavaScript APIs",
     body: "I am practising my first POST request.",
     userId: 1
@@ -58,7 +104,18 @@ postsContainer.innerHTML = postsHtml.join("");
 loadData();
 
 
-
+async function deletePost(){
+    const response = await fetch("https://dummyjson.com/posts/1", {
+        method: "DELETE",
+        
+    })
+    if(!response.ok){
+        throw new Error ("somethin isnt delete")
+    }
+    const finalResponse = await response.json();
+    console.log(finalResponse)
+}
+deletePost()
 
  /* const postsContainer = document.querySelector('.posts-container');
 
